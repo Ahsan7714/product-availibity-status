@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Product Page</title>
+  <!-- Include any necessary CSS or JavaScript files -->
+</head>
+<body>
+  <h1>Product Title</h1>
+  <p>Description of your product goes here.</p>
+
+  <h2>Delivery Information</h2>
+  <button id="inStock">In Stock</button>
+  <button id="outStock">Out of Stock</button>
+
+  <p id="delivery-info"></p> <!-- Placeholder for the timer text -->
+
+  <!-- Rest of your product page content -->
+
+  <script>
+    // Get the current date
+    var currentDate = new Date();
+
+    // Calculate the estimated delivery date based on stock status
+    var stock = true; // Replace with your actual stock status
+    var estimatedDeliveryDate;
+    var inStockButton = document.getElementById("inStock");
+    var outStockButton = document.getElementById("outStock");
+
+    inStockButton.addEventListener("click", function() {
+      stock = true;
+      updateDeliveryInfo();
+    });
+
+    outStockButton.addEventListener("click", function() {
+      stock = false;
+      updateDeliveryInfo();
+    });
+
+    function updateDeliveryInfo() {
+      if (stock) {
+        // Add 7 days to the current date for in-stock items
+        estimatedDeliveryDate = new Date(currentDate.getTime() + (7 * 24 * 60 * 60 * 1000));
+      } else {
+        // Add 60 days to the current date for out-of-stock items
+        estimatedDeliveryDate = new Date(currentDate.getTime() + (60 * 24 * 60 * 60 * 1000));
+      }
+
+      // Format the estimated delivery date
+      var options = { year: 'numeric', month: 'long', day: 'numeric' };
+      var formattedDeliveryDate = estimatedDeliveryDate.toLocaleDateString('en-US', options);
+
+      // Generate the paragraph text
+      var paragraphText;
+
+      if (stock) {
+        paragraphText = 'Get it by ' + formattedDeliveryDate;
+      } else {
+        paragraphText = 'Get it by Approx. ' + formattedDeliveryDate;
+      }
+
+      // Update the paragraph element on your product page with the generated text
+      var paragraphElement = document.getElementById('delivery-info'); // Replace 'delivery-info' with the ID of your paragraph element
+      paragraphElement.textContent = paragraphText;
+    }
+
+    // Initial update based on default stock status
+    updateDeliveryInfo();
+  </script>
+</body>
+</html>
